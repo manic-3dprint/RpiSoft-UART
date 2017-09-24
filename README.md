@@ -27,9 +27,9 @@ GCC_PREFIX := arm-bcm2708-linux-gnueabi-
 Now type `make` and you have the `softuart.ko` driver.
 
 ## Structure
-The driver will be created at `/sys/class/softuart/softuart/`:
+The driver will be created at `/sys/class/soft_uart/1/`:
 ```
-root@raspberrypi:/home/pi# cat /sys/class/softuart/softuart/
+root@raspberrypi:/home/pi# cat /sys/class/soft_uart/1/
 baudrate   data       gpio_rx    gpio_tx    loopback   power/     subsystem/ uevent
 ```
 Where:
@@ -45,41 +45,41 @@ Driver parameters:
 root@raspberrypi:/home/pi# modinfo softuart.ko 
 ...
 parm:           BAUDRATE: Baudrate value [default = 4800] (min=1200, max=19200) (int)
-parm:           GPIO_TX: GPIO TX pin [default = 4] (int)
-parm:           GPIO_RX: GPIO RX pin [default = 2] (int)
+parm:           GPIO_TX: GPIO TX pin [default = 20] (int)
+parm:           GPIO_RX: GPIO RX pin [default = 21] (int)
 ```
 Loading module with default parameters:
 ```
-insmod softuart.ko
+insmod soft_uart.ko
 ```
 Loading module specifying all possible parameters:
 ```
-insmod softuart.ko GPIO_TX=4 GPIO_RX=2 BAUDRATE=4800
+insmod soft_uart.ko GPIO_TX=20 GPIO_RX=21 BAUDRATE=4800
 ```
 
 ### Examples
 Minicom:
 ```
-minicom -b 4800 -D /sys/class/softuart/softuart/data
+minicom -b 4800 -D /sys/class/soft_uart/1/data
 ```
 Send data with `echo`:
 ```
-echo abc > /sys/class/softuart/softuart/data
+echo abc > /sys/class/soft_uart/1/data
 ```
 Receive data with `cat`:
 ```
-cat /sys/class/softuart/softuart/data
+cat /sys/class/soft_uart/1/data
 ```
 Loopback mode:
 ```
-echo 1 > /sys/class/softuart/softuart/loopback
-echo abc > /sys/class/softuart/softuart/data
-cat /sys/class/softuart/softuart/data
+echo 1 > /sys/class/soft_uart/1/loopback
+echo abc > /sys/class/soft_uart/1/data
+cat /sys/class/soft_uart/1/data
 abc
 ```
 Change baudrate to 9600 kbps:
 ```
-echo 9600 > /sys/class/softuart/softuart/baudrate
+echo 9600 > /sys/class/soft_uart/1/baudrate
 ```
 ## Advanced
 Just don't send more than 256 bytes at once and all must be ok, 256 is enough for most applications, but if you need more just change in the source code.
