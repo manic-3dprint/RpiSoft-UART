@@ -1,4 +1,6 @@
-obj-m := softuart.o
+obj-m := soft_uart.o
+soft_uart-objs := softuart.o	
+ccflags-y := -O2 -Wno-unused-function -Wno-unused-variable	
 PWD := $(shell pwd)
 
 KERNEL_SRC_DIR := /root/raspberry/linux
